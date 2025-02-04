@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Интерактивная сцена A-Frame</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script>
+    AFRAME.registerComponent('scene-switcher', {
+      schema: {
+        scene1: {type: 'selector', default: '#scene1'},
+        scene2: {type: 'selector', default: '#scene2'}
+      },
+      init: function () {
+        var el = this.el;
+        var data = this.data;
+
+        // Скрыть вторую сцену при инициализации
+        data.scene2.setAttribute('visible', false);
+
+        el.addEventListener('click', function () {
+          // Переключить видимость сцен
+          var scene1Visible = data.scene1.getAttribute('visible');
+          data.scene1.setAttribute('visible', !scene1Visible);
+          data.scene2.setAttribute('visible', scene1Visible);
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <a-scene>
+    <!-- Ресурсы -->
+    <a-assets>
+      <img id="skyTexture" src="https://cdn.aframe.io/aframe/examples/boilerplate/sky.jpg">
+    </a-assets>
+
+    <!-- Первая сцена -->
+    <a-entity id="scene1">
+      <a-sky src="#skyTexture"></a-sky>
+      <a-entity geometry="primitive: box" material="color: red" position="-1 0.5 -3"></a-entity>
+      <a-entity geometry="primitive: sphere" material="color: blue" position="1.5 0.5 -3"></a-entity>
+    </a-entity>
+
+    <!-- Вторая сцена -->
+    <a-entity id="scene2">
+      <a-sky color="#ECECEC"></a-sky>
+      <a-entity geometry="primitive: cylinder" material="color: orange" position="-1 0.75 -3"></a-entity>
+      <a-entity geometry="primitive: cone" material="color: green" position="1.5 0.75 -3"></a-entity>
+    </a-entity>
+
+    <!-- Кнопка переключения сцен -->
+    <a-entity id="switchButton"
+              geometry="primitive: plane; width: 1; height: 0.5"
+              material="color: white"
+              position="0 1 -2"
+              text="value: Сменить сцену; align: center"
+              scene-switcher="scene1: #scene1; scene2: #scene2"
+              class="clickable">
+    </a-entity>
+
+    <!-- Камера и курсор -->
+    <a-entity camera look-controls wasd-controls>
+      <a-cursor id="cursor" 
+                raycaster="objects: .clickable"
+                fuse="true"
+                fuse-timeout="500"
+                material="color: black; opacity: 0.5"
+                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03">
+        <a-animation begin="fusing" easing="ease-in" attribute="scale"
+                     fill="none" from="1 1 1" to="0.1 0.1 0.1" dur="500"></a-animation>
+      </a-cursor>
+    </a-entity>
+  </a-scene>
+</body>
+</html>

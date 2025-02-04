@@ -93,10 +93,10 @@
             <a-entity
                 id="buttonChangeAll"
                 geometry="primitive: plane; width: 1.5; height: 0.5"
-                material="color: Blue; shader: flat"
+                material="color: white; shader: flat"
                 position="0 0.5 -3"
                 class="clickable"
-               event-set__click="setAttribute: .changeable; attribute: color; value: blue"> <!-- Меняет цвет всех объектов с классом 'changeable' -->
+               event-set__click="setAttribute: .changeable; attribute: material.color; value: blue"> <!-- Меняет цвет всех объектов с классом 'changeable' -->
             </a-entity>
         </a-entity>
 
